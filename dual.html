@@ -1,0 +1,54 @@
+<html><body>
+<script src="js/virtualjoystick.js"></script>
+<script>
+	console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
+
+	// 
+	var joystick	= new VirtualJoystick({
+		container	: document.body,
+		strokeStyle	: 'cyan',
+		limitStickTravel: true,
+		stickRadius	: 120		
+	});
+	joystick.addEventListener('touchStartValidation', function(event){
+		var touch	= event.changedTouches[0];
+		if( touch.pageX < window.innerWidth/2 )	return false;
+		return true
+	});
+
+	// one on the right of the screen
+	var joystick1	= new VirtualJoystick({
+		container	: document.body,
+		strokeStyle	: 'orange',
+		limitStickTravel: true,
+		stickRadius	: 140		
+	});
+	joystick1.addEventListener('touchStartValidation', function(event){
+		var touch	= event.changedTouches[0];
+		if( touch.pageX >= window.innerWidth/2 )	return false;
+		return true
+	});
+	joystick.addEventListener('touchStart', function(){
+	    console.log('hi')
+	})
+	setInterval(function () {
+	    console.log('<b>Result:</b> '
+            + ' dx:' + joystick.deltaX()
+            + ' dy:' + joystick.deltaY()
+            + (joystick.right() ? ' right' : '')
+            + (joystick.up() ? ' up' : '')
+            + (joystick.left() ? ' left' : '')
+            + (joystick.down() ? ' down' : ''))
+	}, 1 / 30 * 1000);
+	setInterval(function () {
+	    console.log('<b>Result:</b> '
+            + ' dx:' + joystick1.deltaX()
+            + ' dy:' + joystick1.deltaY()
+            + (joystick1.right() ? ' right' : '')
+            + (joystick1.up() ? ' up' : '')
+            + (joystick1.left() ? ' left' : '')
+            + (joystick1.down() ? ' down' : ''))
+	}, 1 / 30 * 1000);
+
+</script></body>
+</html>
